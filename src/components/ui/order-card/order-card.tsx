@@ -14,7 +14,7 @@ export const OrderCardUI: FC<OrderCardUIProps> = memo(
   ({ orderInfo, maxIngredients, locationState }) => (
     <Link
       to={orderInfo.number.toString()}
-      relative='path'
+      relative="path"
       state={locationState}
       className={`p-6 mb-4 mr-2 ${styles.order}`}
     >
@@ -22,7 +22,7 @@ export const OrderCardUI: FC<OrderCardUIProps> = memo(
         <span className={`text text_type_digits-default ${styles.number}`}>
           #{String(orderInfo.number).padStart(6, '0')}
         </span>
-        <span className='text text_type_main-default text_color_inactive'>
+        <span className="text text_type_main-default text_color_inactive">
           <FormattedDate date={orderInfo.date} />
         </span>
       </div>
@@ -35,8 +35,8 @@ export const OrderCardUI: FC<OrderCardUIProps> = memo(
       <div className={`pt-6 ${styles.order_content}`}>
         <ul className={styles.ingredients}>
           {orderInfo.ingredientsToShow.map((ingredient, index) => {
-            let zIndex = maxIngredients - index;
-            let right = 20 * index;
+            const zIndex = maxIngredients - index;
+            const right = 20 * index;
             return (
               <li
                 className={styles.img_wrap}
@@ -71,7 +71,7 @@ export const OrderCardUI: FC<OrderCardUIProps> = memo(
           >
             {orderInfo.total}
           </span>
-          <CurrencyIcon type='primary' />
+          <CurrencyIcon type="primary" />
         </div>
       </div>
     </Link>

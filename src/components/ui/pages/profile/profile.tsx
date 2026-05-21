@@ -24,7 +24,7 @@ export const ProfileUI: FC<ProfileUIProps> = ({
       onSubmit={handleSubmit}
     >
       <>
-        <div className='pb-6'>
+        <div className="pb-6">
           <Input
             type={'text'}
             placeholder={'Имя'}
@@ -37,7 +37,7 @@ export const ProfileUI: FC<ProfileUIProps> = ({
             icon={'EditIcon'}
           />
         </div>
-        <div className='pb-6'>
+        <div className="pb-6">
           <Input
             type={'email'}
             placeholder={'E-mail'}
@@ -50,7 +50,7 @@ export const ProfileUI: FC<ProfileUIProps> = ({
             icon={'EditIcon'}
           />
         </div>
-        <div className='pb-6'>
+        <div className="pb-6">
           <Input
             type={'password'}
             placeholder={'Пароль'}
@@ -66,14 +66,14 @@ export const ProfileUI: FC<ProfileUIProps> = ({
         {isFormChanged && (
           <div className={styles.button}>
             <Button
-              type='secondary'
-              htmlType='button'
-              size='medium'
+              type="secondary"
+              htmlType="button"
+              size="medium"
               onClick={handleCancel}
             >
               Отменить
             </Button>
-            <Button type='primary' size='medium' htmlType='submit'>
+            <Button type="primary" size="medium" htmlType="submit">
               Сохранить
             </Button>
           </div>
