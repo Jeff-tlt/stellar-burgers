@@ -51,13 +51,15 @@ export const BurgerConstructor: FC = () => {
       bun._id
     ];
 
-    dispatch(createOrder(ingredientsIds));
+    dispatch(createOrder(ingredientsIds)).then((res) => {
+      if (createOrder.fulfilled.match(res)) {
+        dispatch(clearConstructor());
+      }
+    });
   };
 
   const closeOrderModal = () => {
     dispatch(clearOrder());
-
-    dispatch(clearConstructor());
   };
 
   return (

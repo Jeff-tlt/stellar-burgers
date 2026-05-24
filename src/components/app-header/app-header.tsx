@@ -23,7 +23,13 @@ export const AppHeader: FC = () => {
               type={location.pathname === '/' ? 'primary' : 'secondary'}
             />
 
-            <p className="text text_type_main-default ml-2 mr-10">
+            <p
+              className={`text text_type_main-default ml-2 mr-10 ${
+                location.pathname === '/'
+                  ? 'text_color_primary'
+                  : 'text_color_inactive'
+              }`}
+            >
               Конструктор
             </p>
           </Link>
@@ -33,7 +39,15 @@ export const AppHeader: FC = () => {
               type={location.pathname === '/feed' ? 'primary' : 'secondary'}
             />
 
-            <p className="text text_type_main-default ml-2">Лента заказов</p>
+            <p
+              className={`text text_type_main-default ml-2 ${
+                location.pathname === '/feed'
+                  ? 'text_color_primary'
+                  : 'text_color_inactive'
+              }`}
+            >
+              Лента заказов
+            </p>
           </Link>
         </div>
 
@@ -50,7 +64,15 @@ export const AppHeader: FC = () => {
             }
           />
 
-          <p className="text text_type_main-default ml-2">Личный кабинет</p>
+          <p
+            className={`text text_type_main-default ml-2 ${
+              location.pathname.startsWith('/profile')
+                ? 'text_color_primary'
+                : 'text_color_inactive'
+            }`}
+          >
+            Личный кабинет
+          </p>
         </Link>
       </nav>
     </header>

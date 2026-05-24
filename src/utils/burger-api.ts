@@ -234,3 +234,14 @@ export const getOrderByNumberApi = (number: number): Promise<TOrder> =>
       >(res)
     )
     .then((data) => data.orders[0]);
+
+export const getOrdersApi = (): Promise<TOrder[]> =>
+  fetchWithRefresh<TServerResponse<{ orders: TOrder[] }>>(`${URL}/orders`, {
+    method: 'GET',
+
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+
+      authorization: getCookie('accessToken')
+    } as HeadersInit
+  }).then((data) => data.orders);
