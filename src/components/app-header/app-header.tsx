@@ -14,18 +14,23 @@ import styles from '../ui/app-header/app-header.module.css';
 export const AppHeader: FC = () => {
   const location = useLocation();
 
+  const isConstructorActive =
+    location.pathname === '/' || location.pathname.startsWith('/ingredients');
+
+  const isFeedActive = location.pathname.startsWith('/feed');
+
+  const isProfileActive = location.pathname.startsWith('/profile');
+
   return (
     <header className={styles.header}>
       <nav className={`${styles.menu} p-4`}>
         <div className={styles.menu_part_left}>
           <Link to="/" className={styles.link}>
-            <BurgerIcon
-              type={location.pathname === '/' ? 'primary' : 'secondary'}
-            />
+            <BurgerIcon type={isConstructorActive ? 'primary' : 'secondary'} />
 
             <p
               className={`text text_type_main-default ml-2 mr-10 ${
-                location.pathname === '/'
+                isConstructorActive
                   ? 'text_color_primary'
                   : 'text_color_inactive'
               }`}
@@ -35,15 +40,11 @@ export const AppHeader: FC = () => {
           </Link>
 
           <Link to="/feed" className={styles.link}>
-            <ListIcon
-              type={location.pathname === '/feed' ? 'primary' : 'secondary'}
-            />
+            <ListIcon type={isFeedActive ? 'primary' : 'secondary'} />
 
             <p
               className={`text text_type_main-default ml-2 ${
-                location.pathname === '/feed'
-                  ? 'text_color_primary'
-                  : 'text_color_inactive'
+                isFeedActive ? 'text_color_primary' : 'text_color_inactive'
               }`}
             >
               Лента заказов
@@ -58,17 +59,11 @@ export const AppHeader: FC = () => {
         </div>
 
         <Link to="/profile" className={styles.link_position_last}>
-          <ProfileIcon
-            type={
-              location.pathname.startsWith('/profile') ? 'primary' : 'secondary'
-            }
-          />
+          <ProfileIcon type={isProfileActive ? 'primary' : 'secondary'} />
 
           <p
             className={`text text_type_main-default ml-2 ${
-              location.pathname.startsWith('/profile')
-                ? 'text_color_primary'
-                : 'text_color_inactive'
+              isProfileActive ? 'text_color_primary' : 'text_color_inactive'
             }`}
           >
             Личный кабинет

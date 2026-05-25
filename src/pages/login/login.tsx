@@ -13,7 +13,7 @@ export const Login: FC = () => {
 
   const location = useLocation();
 
-  const { isAuthenticated } = useSelector((state) => state.user);
+  const { isAuthenticated, error } = useSelector((state) => state.user);
 
   const [email, setEmail] = useState('');
 
@@ -38,7 +38,7 @@ export const Login: FC = () => {
 
   return (
     <LoginUI
-      errorText=""
+      errorText={error || ''}
       email={email}
       setEmail={setEmail}
       password={password}

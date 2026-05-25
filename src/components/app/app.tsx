@@ -116,7 +116,20 @@ const App: FC = () => {
           />
 
           {!background && (
-            <Route path="/ingredients/:id" element={<IngredientDetails />} />
+            <Route
+              path="/ingredients/:id"
+              element={
+                <div className={styles.detailPageWrap}>
+                  <h1
+                    className={`text text_type_main-large mb-10 ${styles.detailHeader}`}
+                  >
+                    Детали ингредиента
+                  </h1>
+
+                  <IngredientDetails />
+                </div>
+              }
+            />
           )}
 
           {!background && (

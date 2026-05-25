@@ -16,6 +16,8 @@ interface UserState {
   isAuthChecked: boolean;
 
   isAuthenticated: boolean;
+
+  error: string | null;
 }
 
 const initialState: UserState = {
@@ -23,7 +25,9 @@ const initialState: UserState = {
 
   isAuthChecked: false,
 
-  isAuthenticated: false
+  isAuthenticated: false,
+
+  error: null
 };
 
 export const getUser = createAsyncThunk(
@@ -90,6 +94,8 @@ const userSlice = createSlice({
         state.isAuthenticated = true;
 
         state.isAuthChecked = true;
+
+        state.error = null;
       })
 
       .addCase(getUser.rejected, (state) => {
@@ -100,12 +106,22 @@ const userSlice = createSlice({
         state.isAuthChecked = true;
       })
 
+      .addCase(loginUser.pending, (state) => {
+        state.error = null;
+      })
+
       .addCase(loginUser.fulfilled, (state, action) => {
         state.user = action.payload.user;
 
         state.isAuthenticated = true;
 
         state.isAuthChecked = true;
+
+        state.error = null;
+      })
+
+      .addCase(loginUser.rejected, (state) => {
+        state.error = 'Ошибка авторизации';
       })
 
       .addCase(registerUser.fulfilled, (state, action) => {
@@ -114,6 +130,8 @@ const userSlice = createSlice({
         state.isAuthenticated = true;
 
         state.isAuthChecked = true;
+
+        state.error = null;
       })
 
       .addCase(updateUser.fulfilled, (state, action) => {
