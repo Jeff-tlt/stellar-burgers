@@ -1,16 +1,22 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 
-import { useSelector } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
+
+import { getFeeds, getProfileOrders } from '../../services/slices/feedSlice';
+
+import { getOrderByNumberApi } from '../../utils/burger-api';
 
 import { Preloader } from '../ui/preloader';
 
 import { OrderInfoUI } from '../ui/order-info';
 
-import { TIngredient } from '@utils-types';
+import { TIngredient, TOrder } from '@utils-types';
 
 export const OrderInfo: FC = () => {
+  const dispatch = useDispatch();
+
   const { number } = useParams();
 
   const ingredients = useSelector((state) => state.ingredients.items);
@@ -19,12 +25,35 @@ export const OrderInfo: FC = () => {
 
   const profileOrders = useSelector((state) => state.feed.profileOrders || []);
 
-  const allOrders = [...feedOrders, ...profileOrders];
+  const [fallbackOrder, setFallbackOrder] = useState<TOrder | null>(null);
 
-  const orderData = allOrders.find((item) => item.number === Number(number));
+  useEffect(() => {
+    if (!feedOrders.length) {
+      dispatch(getFeeds());
+    }
+
+    if (!profileOrders.length) {
+      dispatch(getProfileOrders());
+    }
+  }, [dispatch, feedOrders.length, profileOrders.length]);
+
+  const orderData =
+    feedOrders.find((o) => o.number === Number(number)) ||
+    profileOrders.find((o) => o.number === Number(number)) ||
+    fallbackOrder;
+
+  useEffect(() => {
+    if (!orderData && number) {
+      getOrderByNumberApi(Number(number)).then((data) => {
+        setFallbackOrder(data);
+      });
+    }
+  }, [number, orderData]);
 
   const orderInfo = useMemo(() => {
-    if (!orderData || !ingredients.length) return null;
+    if (!orderData || !ingredients.length) {
+      return null;
+    }
 
     const date = new Date(orderData.createdAt);
 

@@ -30,48 +30,28 @@ const initialState: UserState = {
   error: null
 };
 
-export const getUser = createAsyncThunk(
-  'user/getUser',
-
-  async () => getUserApi()
+export const getUser = createAsyncThunk('user/getUser', async () =>
+  getUserApi()
 );
 
 export const loginUser = createAsyncThunk(
   'user/loginUser',
-
-  async (data: {
-    email: string;
-
-    password: string;
-  }) => loginUserApi(data)
+  async (data: { email: string; password: string }) => loginUserApi(data)
 );
 
 export const registerUser = createAsyncThunk(
   'user/registerUser',
-
-  async (data: {
-    email: string;
-
-    password: string;
-
-    name: string;
-  }) => registerUserApi(data)
+  async (data: { email: string; password: string; name: string }) =>
+    registerUserApi(data)
 );
 
 export const updateUser = createAsyncThunk(
   'user/updateUser',
-
-  async (data: {
-    name: string;
-
-    email: string;
-  }) => updateUserApi(data)
+  async (data: { name: string; email: string }) => updateUserApi(data)
 );
 
-export const logoutUser = createAsyncThunk(
-  'user/logoutUser',
-
-  async () => logoutApi()
+export const logoutUser = createAsyncThunk('user/logoutUser', async () =>
+  logoutApi()
 );
 
 const userSlice = createSlice({
@@ -83,7 +63,6 @@ const userSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-
       .addCase(getUser.pending, (state) => {
         state.isAuthChecked = false;
       })
@@ -120,8 +99,8 @@ const userSlice = createSlice({
         state.error = null;
       })
 
-      .addCase(loginUser.rejected, (state) => {
-        state.error = 'Ошибка авторизации';
+      .addCase(loginUser.rejected, (state, action) => {
+        state.error = action.error.message || 'Не удалось войти';
       })
 
       .addCase(registerUser.fulfilled, (state, action) => {
@@ -134,8 +113,18 @@ const userSlice = createSlice({
         state.error = null;
       })
 
+      .addCase(registerUser.rejected, (state, action) => {
+        state.error = action.error.message || 'Не удалось зарегистрироваться';
+      })
+
       .addCase(updateUser.fulfilled, (state, action) => {
         state.user = action.payload.user;
+
+        state.error = null;
+      })
+
+      .addCase(updateUser.rejected, (state, action) => {
+        state.error = action.error.message || 'Не удалось обновить профиль';
       })
 
       .addCase(logoutUser.fulfilled, (state) => {
@@ -144,6 +133,12 @@ const userSlice = createSlice({
         state.isAuthenticated = false;
 
         state.isAuthChecked = true;
+
+        state.error = null;
+      })
+
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.error = action.error.message || 'Не удалось выйти';
       });
   }
 });

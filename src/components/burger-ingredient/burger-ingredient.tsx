@@ -39,7 +39,7 @@ export const BurgerIngredient: FC<Props> = ({ ingredient }) => {
   return (
     <BurgerIngredientUI
       ingredient={ingredient}
-      count={count}
+      count={count > 0 ? count : undefined}
       handleAdd={handleAdd}
       locationState={{ background: location }}
     />
