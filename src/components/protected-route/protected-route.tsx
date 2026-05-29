@@ -24,7 +24,7 @@ export const ProtectedRoute: FC<ProtectedRouteProps> = ({
   }
 
   if (!onlyUnAuth && !isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to='/login' state={{ from: location }} replace />;
   }
 
   if (onlyUnAuth && isAuthenticated) {

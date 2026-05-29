@@ -57,12 +57,12 @@ const App: FC = () => {
         <AppHeader />
 
         <Routes location={background || location}>
-          <Route path="/" element={<ConstructorPage />} />
+          <Route path='/' element={<ConstructorPage />} />
 
-          <Route path="/feed" element={<Feed />} />
+          <Route path='/feed' element={<Feed />} />
 
           <Route
-            path="/login"
+            path='/login'
             element={
               <ProtectedRoute onlyUnAuth>
                 <Login />
@@ -71,7 +71,7 @@ const App: FC = () => {
           />
 
           <Route
-            path="/register"
+            path='/register'
             element={
               <ProtectedRoute onlyUnAuth>
                 <Register />
@@ -80,7 +80,7 @@ const App: FC = () => {
           />
 
           <Route
-            path="/forgot-password"
+            path='/forgot-password'
             element={
               <ProtectedRoute onlyUnAuth>
                 <ForgotPassword />
@@ -89,7 +89,7 @@ const App: FC = () => {
           />
 
           <Route
-            path="/reset-password"
+            path='/reset-password'
             element={
               <ProtectedRoute onlyUnAuth>
                 <ResetPassword />
@@ -98,7 +98,7 @@ const App: FC = () => {
           />
 
           <Route
-            path="/profile"
+            path='/profile'
             element={
               <ProtectedRoute>
                 <Profile />
@@ -107,7 +107,7 @@ const App: FC = () => {
           />
 
           <Route
-            path="/profile/orders"
+            path='/profile/orders'
             element={
               <ProtectedRoute>
                 <ProfileOrders />
@@ -117,7 +117,7 @@ const App: FC = () => {
 
           {!background && (
             <Route
-              path="/ingredients/:id"
+              path='/ingredients/:id'
               element={
                 <div className={styles.detailPageWrap}>
                   <h1
@@ -133,12 +133,12 @@ const App: FC = () => {
           )}
 
           {!background && (
-            <Route path="/feed/:number" element={<OrderInfo />} />
+            <Route path='/feed/:number' element={<OrderInfo />} />
           )}
 
           {!background && (
             <Route
-              path="/profile/orders/:number"
+              path='/profile/orders/:number'
               element={
                 <ProtectedRoute>
                   <OrderInfo />
@@ -147,34 +147,34 @@ const App: FC = () => {
             />
           )}
 
-          <Route path="*" element={<NotFound404 />} />
+          <Route path='*' element={<NotFound404 />} />
         </Routes>
 
         {background && (
           <Routes>
             <Route
-              path="/ingredients/:id"
+              path='/ingredients/:id'
               element={
-                <Modal title="Детали ингредиента" onClose={closeModal}>
+                <Modal title='Детали ингредиента' onClose={closeModal}>
                   <IngredientDetails />
                 </Modal>
               }
             />
 
             <Route
-              path="/feed/:number"
+              path='/feed/:number'
               element={
-                <Modal title="Информация о заказе" onClose={closeModal}>
+                <Modal title='Информация о заказе' onClose={closeModal}>
                   <OrderInfo />
                 </Modal>
               }
             />
 
             <Route
-              path="/profile/orders/:number"
+              path='/profile/orders/:number'
               element={
                 <ProtectedRoute>
-                  <Modal title="Информация о заказе" onClose={closeModal}>
+                  <Modal title='Информация о заказе' onClose={closeModal}>
                     <OrderInfo />
                   </Modal>
                 </ProtectedRoute>

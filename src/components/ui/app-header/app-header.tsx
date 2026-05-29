@@ -22,7 +22,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({
   <header className={styles.header}>
     <nav className={`${styles.menu} p-4`}>
       <div className={styles.menu_part_left}>
-        <Link to="/" className={styles.link}>
+        <Link to='/' className={styles.link}>
           <BurgerIcon type={isConstructorActive ? 'primary' : 'secondary'} />
 
           <p
@@ -34,7 +34,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({
           </p>
         </Link>
 
-        <Link to="/feed" className={styles.link}>
+        <Link to='/feed' className={styles.link}>
           <ListIcon type={isFeedActive ? 'primary' : 'secondary'} />
 
           <p
@@ -48,12 +48,12 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({
       </div>
 
       <div className={styles.logo}>
-        <Link to="/">
-          <Logo className="" />
+        <Link to='/'>
+          <Logo className='' />
         </Link>
       </div>
 
-      <Link to="/profile" className={styles.link_position_last}>
+      <Link to='/profile' className={styles.link_position_last}>
         <ProfileIcon type={isProfileActive ? 'primary' : 'secondary'} />
 
         <p
