@@ -1,25 +1,59 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
+
+import { useParams } from 'react-router-dom';
+
+import { useDispatch, useSelector } from '../../services/store';
+
+import { getFeeds, getProfileOrders } from '../../services/slices/feedSlice';
+
+import { getOrderByNumberApi } from '../../utils/burger-api';
+
 import { Preloader } from '../ui/preloader';
+
 import { OrderInfoUI } from '../ui/order-info';
-import { TIngredient } from '@utils-types';
+
+import { TIngredient, TOrder } from '@utils-types';
 
 export const OrderInfo: FC = () => {
-  /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  };
+  const dispatch = useDispatch();
 
-  const ingredients: TIngredient[] = [];
+  const { number } = useParams();
 
-  /* Готовим данные для отображения */
+  const ingredients = useSelector((state) => state.ingredients.items);
+
+  const feedOrders = useSelector((state) => state.feed.orders);
+
+  const profileOrders = useSelector((state) => state.feed.profileOrders || []);
+
+  const [fallbackOrder, setFallbackOrder] = useState<TOrder | null>(null);
+
+  useEffect(() => {
+    if (!feedOrders.length) {
+      dispatch(getFeeds());
+    }
+
+    if (!profileOrders.length) {
+      dispatch(getProfileOrders());
+    }
+  }, [dispatch, feedOrders.length, profileOrders.length]);
+
+  const orderData =
+    feedOrders.find((o) => o.number === Number(number)) ||
+    profileOrders.find((o) => o.number === Number(number)) ||
+    fallbackOrder;
+
+  useEffect(() => {
+    if (!orderData && number) {
+      getOrderByNumberApi(Number(number)).then((data) => {
+        setFallbackOrder(data);
+      });
+    }
+  }, [number, orderData]);
+
   const orderInfo = useMemo(() => {
-    if (!orderData || !ingredients.length) return null;
+    if (!orderData || !ingredients.length) {
+      return null;
+    }
 
     const date = new Date(orderData.createdAt);
 
@@ -31,6 +65,7 @@ export const OrderInfo: FC = () => {
       (acc: TIngredientsWithCount, item) => {
         if (!acc[item]) {
           const ingredient = ingredients.find((ing) => ing._id === item);
+
           if (ingredient) {
             acc[item] = {
               ...ingredient,
