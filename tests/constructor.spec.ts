@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 test.describe('Конструктор бургера', () => {
   test('добавление ингредиента в конструктор', async ({ page }) => {
@@ -10,6 +10,14 @@ test.describe('Конструктор бургера', () => {
 
     await addButtons.first().click();
 
-    await page.pause();
+    const constructor = page.locator('section').last();
+
+    await expect(
+      constructor.getByText('Краторная булка N-200i (верх)')
+    ).toBeVisible();
+
+    await expect(
+      constructor.getByText('Краторная булка N-200i (низ)')
+    ).toBeVisible();
   });
 });
