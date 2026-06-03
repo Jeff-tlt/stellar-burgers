@@ -1,6 +1,12 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Конструктор бургера', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.routeFromHAR('tests/hars/burger.har', {
+      notFound: 'fallback'
+    });
+  });
+
   test('добавление ингредиента в конструктор', async ({ page }) => {
     await page.goto('/');
 

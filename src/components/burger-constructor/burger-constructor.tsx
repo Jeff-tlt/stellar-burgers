@@ -35,6 +35,8 @@ export const BurgerConstructor: FC = () => {
   }, [bun, ingredients]);
 
   const onOrderClick = () => {
+    console.log('AUTH CHECK', isAuthenticated);
+
     if (!isAuthenticated) {
       navigate('/login');
 

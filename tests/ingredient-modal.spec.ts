@@ -3,6 +3,12 @@ import { test, expect } from '@playwright/test';
 test.describe('Модальное окно ингредиента', () => {
   const ingredientName = 'Краторная булка N-200i';
 
+  test.beforeEach(async ({ page }) => {
+    await page.routeFromHAR('tests/hars/burger.har', {
+      notFound: 'fallback'
+    });
+  });
+
   test('открывается и закрывается через Escape', async ({ page }) => {
     await page.goto('/');
 
@@ -46,7 +52,7 @@ test.describe('Модальное окно ингредиента', () => {
 
     await expect(modal.getByText('Детали ингредиента')).toBeVisible();
 
-    await page.mouse.click(5, 5);
+    await page.locator('#modals > div:last-child').dispatchEvent('click');
 
     await expect(modal.getByText('Детали ингредиента')).not.toBeVisible();
   });
